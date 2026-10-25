@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-export const SERVER_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000').replace(/\/+$/, '');
+const isLocalHost = typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
+const defaultServerUrl = import.meta.env.VITE_API_BASE_URL || (isLocalHost ? 'http://localhost:5000' : window.location.origin);
+
+export const SERVER_URL = defaultServerUrl.replace(/\/+$/, '');
 export const API_URL = `${SERVER_URL}/api`;
 
 export const apiClient = axios.create({
@@ -16,9 +19,9 @@ apiClient.interceptors.response.use(
     const payload = error.response?.data;
     const normalized = new Error(
       payload?.message ||
-        (error.code === 'ECONNABORTED'
-          ? 'The request timed out. Please try again.'
-          : 'Unable to reach the server. Please check that the API is running.')
+      (error.code === 'ECONNABORTED'
+        ? 'The request timed out. Please try again.'
+        : 'Unable to reach the server. Please check that the API is running.')
     );
     normalized.status = error.response?.status;
     normalized.errors = payload?.errors || [];
