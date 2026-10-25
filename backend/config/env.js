@@ -26,7 +26,7 @@ const env = {
   frontendUrl: process.env.FRONTEND_URL || 'https://examnovain.vercel.app',
   maxUploadMb: Number(process.env.MAX_UPLOAD_MB || 25),
   libreOfficePath: process.env.LIBREOFFICE_PATH || '',
-  uploadsDir: path.resolve(__dirname, '..', 'uploads'),
+  uploadsDir: process.env.UPLOADS_DIR || path.resolve(__dirname, '..', 'uploads'),
   admin: {
     name: process.env.ADMIN_NAME || 'Portal Admin',
     email: process.env.ADMIN_EMAIL || 'admin@examportal.in',
