@@ -13,10 +13,12 @@ export function signToken(admin) {
 }
 
 export function setAuthCookie(res, token) {
+  const isProduction = env.nodeEnv === 'production';
+
   res.cookie(TOKEN_COOKIE, token, {
     httpOnly: true,
-    sameSite: env.cookieSecure ? 'none' : 'lax',
-    secure: env.cookieSecure,
+    sameSite: isProduction ? 'none' : 'lax',
+    secure: isProduction || env.cookieSecure,
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: '/',
   });

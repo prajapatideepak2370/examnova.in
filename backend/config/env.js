@@ -21,7 +21,7 @@ const env = {
   mongoUri: process.env.MONGODB_URI,
   jwtSecret: process.env.JWT_SECRET,
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
-  cookieSecure: process.env.COOKIE_SECURE === 'true',
+  cookieSecure: process.env.NODE_ENV === 'production' ? true : process.env.COOKIE_SECURE === 'true',
   clientUrl: process.env.CLIENT_URL || 'http://localhost:5173,https://examnovain.vercel.app',
   frontendUrl: process.env.FRONTEND_URL || 'https://examnovain.vercel.app',
   maxUploadMb: Number(process.env.MAX_UPLOAD_MB || 25),
