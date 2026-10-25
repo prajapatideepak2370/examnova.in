@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-const isLocalHost = typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
-const defaultServerUrl = import.meta.env.VITE_API_BASE_URL || (isLocalHost ? 'http://localhost:5000' : window.location.origin);
-
-export const SERVER_URL = defaultServerUrl.replace(/\/+$/, '');
+export const SERVER_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000').replace(/\/+$/, '');
 export const API_URL = `${SERVER_URL}/api`;
 
 export const apiClient = axios.create({
