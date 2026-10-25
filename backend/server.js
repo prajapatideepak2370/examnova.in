@@ -78,8 +78,9 @@ async function start() {
   ensureUploadsDir();
   await connectDatabase();
 
-  const server = app.listen(env.port, () => {
-    console.log(`[server] listening on http://localhost:${env.port} (${env.nodeEnv})`);
+  const host = '0.0.0.0';
+  const server = app.listen(env.port, host, () => {
+    console.log(`[server] listening on http://${host}:${env.port} (${env.nodeEnv})`);
     console.log(`[server] accepting requests from ${allowedOrigins.join(', ') || 'no configured origins'}`);
   });
 
