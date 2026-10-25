@@ -20,7 +20,15 @@ if (env.nodeEnv === 'production') app.set('trust proxy', 1);
 
 const allowedOrigins = Array.from(
   new Set(
-    [env.clientUrl, env.frontendUrl, 'http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000', 'http://127.0.0.1:3000']
+    [
+      env.clientUrl,
+      env.frontendUrl,
+      'https://examnovain.vercel.app',
+      'http://localhost:5173',
+      'http://127.0.0.1:5173',
+      'http://localhost:3000',
+      'http://127.0.0.1:3000',
+    ]
       .flatMap((value) =>
         String(value || '')
           .split(',')
