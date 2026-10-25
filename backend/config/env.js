@@ -23,6 +23,7 @@ const env = {
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
   cookieSecure: process.env.COOKIE_SECURE === 'true',
   clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
+  frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173',
   maxUploadMb: Number(process.env.MAX_UPLOAD_MB || 25),
   libreOfficePath: process.env.LIBREOFFICE_PATH || '',
   uploadsDir: path.resolve(__dirname, '..', 'uploads'),

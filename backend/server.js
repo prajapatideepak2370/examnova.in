@@ -18,10 +18,17 @@ app.disable('x-powered-by');
 // Behind a reverse proxy in production; left unset locally so rate limiting sees real clients.
 if (env.nodeEnv === 'production') app.set('trust proxy', 1);
 
-const allowedOrigins = env.clientUrl
-  .split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean);
+const allowedOrigins = Array.from(
+  new Set(
+    [env.clientUrl, env.frontendUrl, 'http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000', 'http://127.0.0.1:3000']
+      .flatMap((value) =>
+        String(value || '')
+          .split(',')
+          .map((origin) => origin.trim())
+          .filter(Boolean)
+      )
+  )
+);
 
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(
