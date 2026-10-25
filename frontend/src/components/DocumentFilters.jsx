@@ -1,5 +1,5 @@
 import Icon from './Icon.jsx';
-import { EXAMINATION_OPTIONS, FILE_TYPE_OPTIONS, SORT_OPTIONS, SUBJECT_OPTIONS } from '../utils/constants.js';
+import { EXAM_OPTION_GROUPS, FILE_TYPE_OPTIONS, SORT_OPTIONS, SUBJECT_OPTIONS } from '../utils/constants.js';
 
 const EMPTY_FILTERS = {
   category: '',
@@ -24,7 +24,7 @@ export default function DocumentFilters({ categories = [], value, onChange, onRe
           Filters
         </h2>
         <button type="button" className="link-button" onClick={onReset} disabled={disabled}>
-          Reset
+          Clear filters
         </button>
       </div>
 
@@ -53,7 +53,7 @@ export default function DocumentFilters({ categories = [], value, onChange, onRe
       </div>
 
       <div className="field">
-        <label htmlFor="filter-examination">Examination</label>
+        <label htmlFor="filter-examination">Examination type</label>
         <select
           id="filter-examination"
           value={value.examination}
@@ -61,10 +61,14 @@ export default function DocumentFilters({ categories = [], value, onChange, onRe
           disabled={disabled}
         >
           <option value="">All examinations</option>
-          {EXAMINATION_OPTIONS.map((examination) => (
-            <option key={examination} value={examination}>
-              {examination}
-            </option>
+          {EXAM_OPTION_GROUPS.map((group) => (
+            <optgroup key={group.label} label={group.label}>
+              {group.options.map((examination) => (
+                <option key={examination} value={examination}>
+                  {examination}
+                </option>
+              ))}
+            </optgroup>
           ))}
         </select>
       </div>

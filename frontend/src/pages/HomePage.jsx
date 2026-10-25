@@ -7,8 +7,10 @@ import DocumentCard from '../components/DocumentCard.jsx';
 import LoadingSpinner from '../components/LoadingSpinner.jsx';
 import StatusMessage from '../components/StatusMessage.jsx';
 import SearchBar from '../components/SearchBar.jsx';
+import TopicCard from '../components/TopicCard.jsx';
 import { fetchCategories } from '../services/categoryService.js';
 import { fetchDocuments } from '../services/documentService.js';
+import { EXAM_TYPE_CARDS, SITE_NAME, SUBJECT_OPTIONS } from '../utils/constants.js';
 
 const HIGHLIGHTS = [
   {
@@ -19,12 +21,12 @@ const HIGHLIGHTS = [
   {
     icon: 'search',
     title: 'Search everything',
-    text: 'Find material by title, subject, tag, examination name or keyword.',
+    text: 'Find material by title, subject, tag, exam type or keyword.',
   },
   {
     icon: 'shield',
-    title: 'Exam focused',
-    text: 'Curated notes for SSC, UPSC, Banking, Railway and State PSC examinations.',
+    title: 'Every examination',
+    text: 'Notes and practice sets for school, entrance and competitive examinations.',
   },
 ];
 
@@ -73,12 +75,12 @@ export default function HomePage() {
         <div className="container hero__inner">
           <span className="hero__badge">
             <Icon name="sparkle" size={16} />
-            Trusted study material for government exams
+            {SITE_NAME} · notes, PDFs and practice questions
           </span>
-          <h1 className="hero__title">Your destination for government exam preparation</h1>
+          <h1 className="hero__title">Your one-stop destination for study materials</h1>
           <p className="hero__subtitle">
-            Access quality study materials, general knowledge, mathematics, current affairs and practice
-            questions in one place.
+            Access notes, PDFs, practice questions, and learning resources for school, entrance, and
+            competitive examinations.
           </p>
 
           <div className="hero__search">
@@ -88,11 +90,12 @@ export default function HomePage() {
           <div className="hero__actions">
             <Link className="btn btn--primary btn--lg" to="/study-materials">
               <Icon name="book" size={18} />
-              Explore study materials
+              Explore materials
             </Link>
-            <a className="btn btn--ghost btn--lg" href="#popular-categories">
-              Browse categories
-            </a>
+            <Link className="btn btn--ghost btn--lg" to="/admin/upload">
+              <Icon name="upload" size={18} />
+              Upload study material
+            </Link>
           </div>
 
           <dl className="hero__stats">
@@ -112,12 +115,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" id="popular-categories">
+      <section className="section" id="subject-categories">
         <div className="container">
           <header className="section__header">
             <div>
-              <h2>Popular categories</h2>
-              <p>Jump straight into the subject you are preparing for.</p>
+              <h2>Subject and exam categories</h2>
+              <p>Jump straight into the subject or examination you are preparing for.</p>
             </div>
           </header>
 
@@ -137,12 +140,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section section--tinted" id="latest-uploads">
+      <section className="section section--tinted" id="recently-uploaded">
         <div className="container">
           <header className="section__header">
             <div>
-              <h2>Latest uploads</h2>
-              <p>Freshly added notes, question papers and practice sets from the administrator.</p>
+              <h2>Recently uploaded materials</h2>
+              <p>Freshly added notes, question papers and practice sets.</p>
             </div>
             <Link className="btn btn--outline btn--sm" to="/study-materials">
               View all
@@ -196,6 +199,59 @@ export default function HomePage() {
               ))}
             </div>
           ) : null}
+        </div>
+      </section>
+
+      <section className="section section--tinted" id="explore-subjects">
+        <div className="container">
+          <header className="section__header">
+            <div>
+              <h2>Explore all subjects</h2>
+              <p>Every subject in the library, from mathematics and science to history and economics.</p>
+            </div>
+            <Link className="btn btn--outline btn--sm" to="/subjects">
+              All subjects
+              <Icon name="arrow-right" size={16} />
+            </Link>
+          </header>
+
+          <div className="category-grid">
+            {SUBJECT_OPTIONS.map((subject) => (
+              <TopicCard
+                key={subject}
+                icon="book"
+                title={subject}
+                to={`/study-materials?subject=${encodeURIComponent(subject)}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section" id="exam-types">
+        <div className="container">
+          <header className="section__header">
+            <div>
+              <h2>Examination types we cover</h2>
+              <p>Study material organised by the kind of examination you are preparing for.</p>
+            </div>
+            <Link className="btn btn--outline btn--sm" to="/exam-categories">
+              All exam categories
+              <Icon name="arrow-right" size={16} />
+            </Link>
+          </header>
+
+          <div className="category-grid">
+            {EXAM_TYPE_CARDS.map((examType) => (
+              <TopicCard
+                key={examType.title}
+                icon="preparation"
+                title={examType.title}
+                description={examType.description}
+                to={`/study-materials?examination=${encodeURIComponent(examType.title)}`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 

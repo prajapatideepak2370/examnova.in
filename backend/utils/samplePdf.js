@@ -42,7 +42,7 @@ function contentStream(title, bodyLines, pageNumber, totalPages) {
     `(${escapeText(title)}) Tj`,
     '/F1 10 Tf',
     '0 -22 Td',
-    `(${escapeText('Government Exam Study Portal  |  Page ' + pageNumber + ' of ' + totalPages)}) Tj`,
+    `(${escapeText('Study Materials Hub  |  Page ' + pageNumber + ' of ' + totalPages)}) Tj`,
     '/F1 11.5 Tf',
     '0 -34 Td',
   ];

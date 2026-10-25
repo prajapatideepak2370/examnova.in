@@ -176,7 +176,7 @@ export default function DocumentBrowser({
             <SearchBar
               size="small"
               defaultValue={keyword}
-              placeholder="Search within study material..."
+              placeholder="Search by document title or subject..."
               onSubmit={(term) => {
                 setKeyword(term);
                 setPage(1);

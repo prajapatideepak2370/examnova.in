@@ -46,7 +46,7 @@ export default function DocumentDetailPage() {
   useEffect(() => {
     if (!document) return undefined;
     const previousTitle = window.document.title;
-    window.document.title = `${document.title} | Exam Portal`;
+    window.document.title = `${document.title} | Study Materials Hub`;
     return () => {
       window.document.title = previousTitle;
     };

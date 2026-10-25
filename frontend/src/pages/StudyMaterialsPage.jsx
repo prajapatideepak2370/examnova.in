@@ -9,13 +9,13 @@ export default function StudyMaterialsPage() {
 
   const subheading = useMemo(() => {
     if (keyword) return `Showing results for "${keyword}".`;
-    return 'Browse and read notes, question papers, practice sets and mock tests online.';
+    return 'Search by title or subject, then filter by category and examination type to find exactly what you need.';
   }, [keyword]);
 
   return (
     <div className="container page-section">
       <DocumentBrowser
-        heading="All study materials"
+        heading="Study materials"
         subheading={subheading}
         initialKeyword={keyword}
       />

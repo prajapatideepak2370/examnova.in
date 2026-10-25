@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import Icon from './Icon.jsx';
+import { SITE_MARK, SITE_NAME } from '../utils/constants.js';
 
 const CATEGORY_LINKS = [
   { label: 'General Knowledge', to: '/study-materials?category=general-knowledge' },
   { label: 'Mathematics', to: '/study-materials?category=mathematics' },
+  { label: 'Science', to: '/study-materials?category=science' },
   { label: 'Current Affairs', to: '/study-materials?category=current-affairs' },
   { label: 'Previous Year Papers', to: '/study-materials?category=previous-year-question-papers' },
-  { label: 'Mock Tests', to: '/study-materials?category=mock-tests' },
+  { label: 'Other Subjects', to: '/study-materials?category=other' },
 ];
 
 const COMPANY_LINKS = [
@@ -37,16 +39,16 @@ export default function Footer() {
         <div className="site-footer__brand">
           <div className="site-brand site-brand--footer">
             <span className="brand-mark" aria-hidden="true">
-              EP
+              {SITE_MARK}
             </span>
             <span className="site-brand__text">
-              <strong>Exam Portal</strong>
-              <small>Government exam preparation</small>
+              <strong>{SITE_NAME}</strong>
+              <small>Study materials for every exam</small>
             </span>
           </div>
           <p>
-            A focused study library for Indian government competitive examinations. Read notes, previous
-            year papers, mock tests and practice questions online, in one organised place.
+            An all-in-one study library for school, entrance and competitive examinations. Read notes,
+            previous year papers, mock tests and practice questions online, all in one organised place.
           </p>
         </div>
 
@@ -98,9 +100,12 @@ export default function Footer() {
 
       <div className="site-footer__bottom">
         <div className="container">
-          <span>&copy; {year} Exam Portal. All rights reserved.</span>
           <span>
-            Built for students preparing for SSC, UPSC, Banking, Railway and State PSC examinations.
+            &copy; {year} {SITE_NAME}. All rights reserved.
+          </span>
+          <span>
+            Built for students preparing for school, entrance, government, banking, railway, defence and
+            other competitive examinations.
           </span>
         </div>
       </div>

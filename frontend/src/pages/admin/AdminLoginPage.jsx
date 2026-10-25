@@ -45,10 +45,10 @@ export default function AdminLoginPage() {
       <aside className="admin-login__aside">
         <div className="admin-login__brand">
           <span className="brand-mark" aria-hidden="true">
-            EP
+            SM
           </span>
           <div>
-            <strong>Exam Portal</strong>
+            <strong>Study Materials Hub</strong>
             <small>Administration console</small>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function AdminLoginPage() {
               type="email"
               value={form.email}
               onChange={update('email')}
-              placeholder="admin@examportal.in"
+              placeholder="admin@example.com"
               autoComplete="username"
               required
               autoFocus

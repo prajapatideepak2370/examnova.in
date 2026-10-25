@@ -64,7 +64,7 @@ app.use(
 app.get('/', (_req, res) => {
   res.json({
     success: true,
-    message: 'Government Exam Study Portal API',
+    message: 'Study Materials Hub API',
     data: { version: '1.0.0', docs: '/api/health' },
   });
 });

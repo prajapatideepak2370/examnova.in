@@ -25,10 +25,10 @@ export default function AdminLayout() {
       <aside className={`admin-sidebar ${menuOpen ? 'is-open' : ''}`}>
         <div className="admin-sidebar__brand">
           <span className="brand-mark" aria-hidden="true">
-            EP
+            SM
           </span>
           <div>
-            <strong>Exam Portal</strong>
+            <strong>Study Materials Hub</strong>
             <span>Admin console</span>
           </div>
         </div>

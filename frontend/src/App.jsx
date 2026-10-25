@@ -5,6 +5,9 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 import HomePage from './pages/HomePage.jsx';
 import StudyMaterialsPage from './pages/StudyMaterialsPage.jsx';
+import SubjectsPage from './pages/SubjectsPage.jsx';
+import ExamCategoriesPage from './pages/ExamCategoriesPage.jsx';
+import CommentsPage from './pages/CommentsPage.jsx';
 import DocumentDetailPage from './pages/DocumentDetailPage.jsx';
 import SearchResultsPage from './pages/SearchResultsPage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
@@ -25,6 +28,9 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/study-materials" element={<StudyMaterialsPage />} />
         <Route path="/study-materials/:slug" element={<DocumentDetailPage />} />
+        <Route path="/subjects" element={<SubjectsPage />} />
+        <Route path="/exam-categories" element={<ExamCategoriesPage />} />
+        <Route path="/comments" element={<CommentsPage />} />
         <Route path="/search" element={<SearchResultsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />

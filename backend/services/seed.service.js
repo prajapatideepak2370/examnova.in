@@ -8,38 +8,38 @@ import { saveBuffer, removeFile } from './storage.service.js';
 
 export const CATEGORY_SEED = [
   {
-    name: 'General Knowledge',
+    name: 'General Knowledge (GK)',
     slug: 'general-knowledge',
     icon: 'gk',
-    description: 'History, geography, polity, economy and static GK notes for every government exam.',
+    description: 'History, geography, polity, economy and static general knowledge notes.',
     order: 1,
-  },
-  {
-    name: 'Mathematics',
-    slug: 'mathematics',
-    icon: 'math',
-    description: 'Quantitative aptitude notes, shortcuts and practice sets for SSC, Bank and Railway exams.',
-    order: 2,
   },
   {
     name: 'Current Affairs',
     slug: 'current-affairs',
     icon: 'current-affairs',
     description: 'Daily, weekly and monthly current affairs digests with exam-oriented MCQs.',
+    order: 2,
+  },
+  {
+    name: 'Mathematics',
+    slug: 'mathematics',
+    icon: 'math',
+    description: 'Arithmetic, algebra, geometry and mensuration notes with solved examples.',
     order: 3,
+  },
+  {
+    name: 'Quantitative Aptitude',
+    slug: 'quantitative-aptitude',
+    icon: 'math',
+    description: 'Speed maths, shortcuts and practice sets for quantitative aptitude papers.',
+    order: 4,
   },
   {
     name: 'Reasoning',
     slug: 'reasoning',
     icon: 'reasoning',
     description: 'Verbal and non-verbal reasoning techniques with solved examples.',
-    order: 4,
-  },
-  {
-    name: 'General Science',
-    slug: 'general-science',
-    icon: 'science',
-    description: 'Physics, chemistry and biology fundamentals asked in competitive examinations.',
     order: 5,
   },
   {
@@ -53,30 +53,117 @@ export const CATEGORY_SEED = [
     name: 'Hindi',
     slug: 'hindi',
     icon: 'hindi',
-    description: 'Hindi vyakaran, gadyansh and official-language preparation material.',
+    description: 'Hindi vyakaran, gadyansh and language practice material.',
     order: 7,
   },
   {
-    name: 'Government Exam Preparation',
-    slug: 'government-exam-preparation',
-    icon: 'preparation',
-    description: 'Exam-wise syllabus, study plans and strategy guides for all major recruitment exams.',
+    name: 'Science',
+    slug: 'science',
+    icon: 'science',
+    description: 'Physics, chemistry and biology fundamentals for school and competitive exams.',
     order: 8,
+  },
+  {
+    name: 'Physics',
+    slug: 'physics',
+    icon: 'science',
+    description: 'Mechanics, optics, electricity and modern physics notes with formulae.',
+    order: 9,
+  },
+  {
+    name: 'Chemistry',
+    slug: 'chemistry',
+    icon: 'science',
+    description: 'Physical, organic and inorganic chemistry notes with reaction charts.',
+    order: 10,
+  },
+  {
+    name: 'Biology',
+    slug: 'biology',
+    icon: 'science',
+    description: 'Cell biology, human physiology, genetics and ecology study notes.',
+    order: 11,
+  },
+  {
+    name: 'General Awareness',
+    slug: 'general-awareness',
+    icon: 'gk',
+    description: 'Static awareness, schemes, awards and everyday facts for objective papers.',
+    order: 12,
+  },
+  {
+    name: 'Computer Knowledge',
+    slug: 'computer-knowledge',
+    icon: 'documents',
+    description: 'Computer fundamentals, MS Office, networking and internet basics.',
+    order: 13,
+  },
+  {
+    name: 'History',
+    slug: 'history',
+    icon: 'papers',
+    description: 'Ancient, medieval, modern and world history notes with timelines.',
+    order: 14,
+  },
+  {
+    name: 'Geography',
+    slug: 'geography',
+    icon: 'gk',
+    description: 'Physical, Indian and world geography notes, maps and climate topics.',
+    order: 15,
+  },
+  {
+    name: 'Political Science',
+    slug: 'political-science',
+    icon: 'preparation',
+    description: 'Indian polity, constitution, governance and international relations notes.',
+    order: 16,
+  },
+  {
+    name: 'Economics',
+    slug: 'economics',
+    icon: 'layers',
+    description: 'Micro and macro economics, Indian economy, budgeting and banking concepts.',
+    order: 17,
+  },
+  {
+    name: 'Exam Preparation',
+    slug: 'exam-preparation',
+    icon: 'preparation',
+    description: 'Exam-wise syllabus, study plans and strategy guides for every examination.',
+    order: 18,
   },
   {
     name: 'Previous Year Question Papers',
     slug: 'previous-year-question-papers',
     icon: 'papers',
     description: 'Solved previous year question papers with detailed answer keys.',
-    order: 9,
+    order: 19,
   },
   {
     name: 'Mock Tests',
     slug: 'mock-tests',
     icon: 'mock-tests',
     description: 'Full-length and sectional mock tests with solutions and time management tips.',
-    order: 10,
+    order: 20,
   },
+  {
+    name: 'Other',
+    slug: 'other',
+    icon: 'book',
+    description:
+      'Study material for any subject that is not listed above. Add a custom subject name while uploading.',
+    order: 21,
+  },
+];
+
+/**
+ * Slugs that were renamed so the seeded taxonomy matches the study materials
+ * platform. The rename happens in place so documents keep the same category id.
+ */
+const CATEGORY_SLUG_MIGRATIONS = [
+  { from: 'general-science', to: 'science' },
+  { from: 'government-exam-preparation', to: 'exam-preparation' },
 ];
 
 const DOCUMENT_SEED = [
@@ -178,7 +265,7 @@ const DOCUMENT_SEED = [
   },
   {
     title: 'General Science Capsule for SSC Exams',
-    categorySlug: 'general-science',
+    categorySlug: 'science',
     subject: 'General Science',
     examination: 'SSC CHSL',
     description:
@@ -248,7 +335,7 @@ const DOCUMENT_SEED = [
   },
   {
     title: 'SSC CGL Syllabus and 90-Day Study Plan',
-    categorySlug: 'government-exam-preparation',
+    categorySlug: 'exam-preparation',
     subject: 'Exam Strategy',
     examination: 'SSC CGL',
     description:
@@ -571,7 +658,7 @@ function chunkLines(lines, perPage = 14) {
 
 function coverPageFor(doc) {
   return [
-    'GOVERNMENT EXAM STUDY PORTAL',
+    'STUDY MATERIALS HUB',
     '',
     `Subject: ${doc.subject}`,
     `Target Examination: ${doc.examination}`,
@@ -617,6 +704,20 @@ export async function seedDatabase({ reset = false } = {}) {
   summary.admin = 1;
 
   // ---- Categories ----
+  // Rename earlier slugs in place first so the record (and its documents) is reused,
+  // never duplicated or deleted.
+  for (const { from, to } of CATEGORY_SLUG_MIGRATIONS) {
+    // eslint-disable-next-line no-await-in-loop
+    const legacy = await Category.findOne({ slug: from });
+    if (!legacy) continue;
+    // eslint-disable-next-line no-await-in-loop
+    const clash = await Category.findOne({ slug: to });
+    if (clash) continue;
+    legacy.slug = to;
+    // eslint-disable-next-line no-await-in-loop
+    await legacy.save();
+  }
+
   for (const category of CATEGORY_SEED) {
     // eslint-disable-next-line no-await-in-loop
     await Category.updateOne({ slug: category.slug }, { $set: category }, { upsert: true });

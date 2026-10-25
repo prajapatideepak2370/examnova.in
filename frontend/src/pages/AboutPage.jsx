@@ -14,7 +14,7 @@ const PILLARS = [
   {
     icon: 'shield',
     title: 'Stay exam ready',
-    text: 'Material is organised by category so you always know what to study next.',
+    text: 'Material is organised by subject and exam type so you always know what to study next.',
   },
 ];
 
@@ -22,25 +22,34 @@ export default function AboutPage() {
   return (
     <div className="container page-section">
       <header className="page-header">
-        <h1>About Exam Portal</h1>
+        <h1>About Study Materials Hub</h1>
         <p>
-          Exam Portal is a study library built for students preparing for Indian government competitive
-          examinations such as SSC, UPSC, Banking, Railway and State PSC exams.
+          Study Materials Hub is an all-in-one study library for students preparing for school
+          examinations, entrance tests and competitive examinations of every kind.
         </p>
       </header>
 
       <div className="prose">
-        <h2>What the portal offers</h2>
+        <h2>What the platform offers</h2>
         <p>
-          Every document is uploaded and published by the portal administrator, so the library stays
-          curated rather than crowded. Study material is filed under categories such as General Knowledge,
-          Mathematics, Current Affairs, Reasoning, General Science, English, Hindi, previous year question
-          papers and mock tests.
+          Every document is uploaded and published by the platform administrator, so the library stays
+          curated rather than crowded. Study material is filed under subjects such as General Knowledge,
+          Mathematics, Quantitative Aptitude, Reasoning, Science, English, Hindi, History, Geography,
+          Political Science, Economics, Computer Knowledge, previous year question papers and mock tests.
+          Subjects that are not listed can be filed under the &quot;Other&quot; category with a custom
+          subject name.
         </p>
         <p>
           Students can browse the catalogue without creating an account. Filters for category, subject,
-          examination, document format and upload date make it easy to narrow down to exactly the material
-          you need.
+          examination type, document format and upload date make it easy to narrow down to exactly the
+          material you need.
+        </p>
+
+        <h2>Examinations we support</h2>
+        <p>
+          The library covers government and public sector examinations, school examinations, entrance
+          examinations, engineering and medical entrance tests, banking, railway and defence recruitment,
+          along with other competitive examinations.
         </p>
 
         <h2>How material is delivered</h2>

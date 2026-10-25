@@ -1,7 +1,9 @@
-# Exam Portal — Government Competitive Exam Study Portal
+# Study Materials Hub — Study Materials for All Competitive Exams
 
-A modern, responsive educational website where an administrator uploads study material (PDF, DOC,
-DOCX) and students browse, search and read it online as individual document pages.
+An all-in-one study materials platform where an administrator uploads study material (PDF, DOC,
+DOCX) and students browse, search and read it online as individual document pages. It serves
+government and public sector exams, school examinations, entrance exams (engineering, medical and
+general), banking, railway, defence and other competitive examinations.
 
 Built as a full MERN stack application:
 
@@ -272,10 +274,11 @@ reading page knows whether to render the viewer or the download fallback.
 
 Implemented and working end to end:
 
-- Public home page (hero, popular categories, latest uploads, popular materials), study materials
-  catalogue with filters and pagination, keyword search page, dedicated document reading page with a
-  full PDF viewer (page navigation, zoom, fullscreen, download), about, contact, privacy policy,
-  terms and a 404 page.
+- Public home page (hero, subject and exam category cards, recently uploaded materials, popular
+  materials, explore-all-subjects and examination-types sections, comments), study materials
+  catalogue with filters and pagination, subjects, exam categories, comments, dedicated document
+  reading page with a full PDF viewer (page navigation, zoom, fullscreen, download), about, privacy
+  policy, terms and a 404 page.
 - Administrator sign in, dashboard, upload/replace/edit, manage, publish/unpublish and delete.
 - Backend documents, categories, authentication and statistics APIs with the four Mongoose models.
 

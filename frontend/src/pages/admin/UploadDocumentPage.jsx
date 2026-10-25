@@ -8,8 +8,9 @@ import { createDocument, fetchDocument, updateDocument } from '../../services/do
 import {
   ACCEPTED_FILE_EXTENSIONS,
   DOCUMENT_STATUSES,
-  EXAMINATION_OPTIONS,
+  EXAM_OPTION_GROUPS,
   MAX_UPLOAD_MB,
+  OTHER_CATEGORY_SLUG,
   SUBJECT_OPTIONS,
 } from '../../utils/constants.js';
 import { formatFileSize, formatFileType } from '../../utils/format.js';
@@ -27,8 +28,9 @@ const EMPTY_FORM = {
 
 const TIPS = [
   'Give the document a clear, descriptive title so students can find it in search.',
-  'Pick the category first — it controls which subject listing the document appears under.',
-  'Tags such as "ssc cgl 2024" or "polity notes" improve keyword matching.',
+  'Pick the category first — it decides which subject listing the document appears under.',
+  'Choose "Other" when the subject is not listed, then type a custom subject name such as Computer Science.',
+  'Tags such as "physics notes" or "revision" improve keyword matching.',
   'Save as a draft while the file is being reviewed, then publish it from Manage documents.',
 ];
 
@@ -99,6 +101,23 @@ export default function UploadDocumentPage() {
     setForm((current) => ({ ...current, [key]: value }));
   };
 
+  const isOtherCategory = useMemo(
+    () => categories.find((category) => category._id === form.category)?.slug === OTHER_CATEGORY_SLUG,
+    [categories, form.category]
+  );
+
+  // Switching in or out of the "Other" category changes the meaning of the subject
+  // field, so it is cleared to avoid carrying a value across the two modes.
+  const handleCategoryChange = (event) => {
+    const nextId = event.target.value;
+    setForm((current) => {
+      const previousSlug = categories.find((category) => category._id === current.category)?.slug;
+      const nextSlug = categories.find((category) => category._id === nextId)?.slug;
+      const crossesOtherBoundary = (previousSlug === OTHER_CATEGORY_SLUG) !== (nextSlug === OTHER_CATEGORY_SLUG);
+      return { ...current, category: nextId, subject: crossesOtherBoundary ? '' : current.subject };
+    });
+  };
+
   const acceptFile = (candidate) => {
     if (!candidate) return;
     const extension = `.${candidate.name.split('.').pop().toLowerCase()}`;
@@ -118,6 +137,7 @@ export default function UploadDocumentPage() {
     const errors = {};
     if (form.title.trim().length < 5) errors.title = 'Title must be at least 5 characters.';
     if (!form.category) errors.category = 'Select a category for this document.';
+    if (form.subject.trim().length > 120) errors.subject = 'Keep the subject name under 120 characters.';
     if (!isEdit && !file) errors.file = 'Attach a PDF, DOC or DOCX file to upload.';
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -133,7 +153,7 @@ export default function UploadDocumentPage() {
     formData.append('title', form.title.trim());
     formData.append('description', form.description.trim());
     formData.append('category', form.category);
-    formData.append('subject', form.subject);
+    formData.append('subject', form.subject.trim());
     formData.append('examination', form.examination);
     formData.append('tags', form.tags);
     formData.append('status', form.status);
@@ -181,7 +201,7 @@ export default function UploadDocumentPage() {
           <h1>{isEdit ? 'Edit study material' : 'Upload study material'}</h1>
           <p>
             {isEdit
-              ? 'Update the details, publish state or replace the uploaded file.'
+              ? 'Update the details, category, publish state or replace the uploaded file.'
               : 'Add a new PDF, DOC or DOCX document to the study library.'}
           </p>
         </div>
@@ -207,23 +227,40 @@ export default function UploadDocumentPage() {
             <p className="form-section__subtitle">These fields appear on the document page and in search.</p>
 
             <div className="field">
-              <label htmlFor="document-title">Title</label>
+              <label htmlFor="document-title">Document title</label>
               <input
                 id="document-title"
                 type="text"
                 value={form.title}
                 onChange={update('title')}
-                placeholder="General Knowledge Notes for SSC CGL"
+                placeholder="Physics formulae and revision notes"
                 maxLength={200}
                 required
               />
               {fieldErrors.title ? <span className="field__error">{fieldErrors.title}</span> : null}
             </div>
 
+            <div className="field">
+              <label htmlFor="document-description">Description</label>
+              <textarea
+                id="document-description"
+                value={form.description}
+                onChange={update('description')}
+                placeholder="What does this material cover, and which topics are included?"
+                maxLength={2000}
+              />
+              <span className="field__hint">Up to 2000 characters. Shown on the document card.</span>
+            </div>
+
             <div className="form-grid">
               <div className="field">
                 <label htmlFor="document-category">Category</label>
-                <select id="document-category" value={form.category} onChange={update('category')} required>
+                <select
+                  id="document-category"
+                  value={form.category}
+                  onChange={handleCategoryChange}
+                  required
+                >
                   <option value="">Select a category</option>
                   {categories.map((category) => (
                     <option key={category._id} value={category._id}>
@@ -238,32 +275,64 @@ export default function UploadDocumentPage() {
                 )}
               </div>
 
-              <div className="field">
-                <label htmlFor="document-subject">Subject</label>
-                <select id="document-subject" value={form.subject} onChange={update('subject')}>
-                  <option value="">Not specified</option>
-                  {SUBJECT_OPTIONS.map((subject) => (
-                    <option key={subject} value={subject}>
-                      {subject}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {isOtherCategory ? (
+                <div className="field">
+                  <label htmlFor="document-subject-custom">Custom subject name (optional)</label>
+                  <input
+                    id="document-subject-custom"
+                    type="text"
+                    list="document-subject-suggestions"
+                    value={form.subject}
+                    onChange={update('subject')}
+                    placeholder="e.g. Computer Science, Environmental Studies, Agriculture"
+                    maxLength={120}
+                  />
+                  <datalist id="document-subject-suggestions">
+                    {SUBJECT_OPTIONS.map((subject) => (
+                      <option key={subject} value={subject} />
+                    ))}
+                  </datalist>
+                  {fieldErrors.subject ? (
+                    <span className="field__error">{fieldErrors.subject}</span>
+                  ) : (
+                    <span className="field__hint">
+                      Type any subject that is not covered by the listed categories.
+                    </span>
+                  )}
+                </div>
+              ) : (
+                <div className="field">
+                  <label htmlFor="document-subject">Subject</label>
+                  <select id="document-subject" value={form.subject} onChange={update('subject')}>
+                    <option value="">Not specified</option>
+                    {SUBJECT_OPTIONS.map((subject) => (
+                      <option key={subject} value={subject}>
+                        {subject}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               <div className="field">
-                <label htmlFor="document-examination">Examination</label>
+                <label htmlFor="document-examination">Exam type</label>
                 <select
                   id="document-examination"
                   value={form.examination}
                   onChange={update('examination')}
                 >
-                  <option value="">All examinations</option>
-                  {EXAMINATION_OPTIONS.map((examination) => (
-                    <option key={examination} value={examination}>
-                      {examination}
-                    </option>
+                  <option value="">Not specified</option>
+                  {EXAM_OPTION_GROUPS.map((group) => (
+                    <optgroup key={group.label} label={group.label}>
+                      {group.options.map((examination) => (
+                        <option key={examination} value={examination}>
+                          {examination}
+                        </option>
+                      ))}
+                    </optgroup>
                   ))}
                 </select>
+                <span className="field__hint">Pick an examination type or one specific examination.</span>
               </div>
 
               <div className="field">
@@ -280,32 +349,20 @@ export default function UploadDocumentPage() {
             </div>
 
             <div className="field">
-              <label htmlFor="document-description">Short description</label>
-              <textarea
-                id="document-description"
-                value={form.description}
-                onChange={update('description')}
-                placeholder="What does this material cover, and which topics are included?"
-                maxLength={2000}
-              />
-              <span className="field__hint">Up to 2000 characters. Shown on the document card.</span>
-            </div>
-
-            <div className="field">
-              <label htmlFor="document-tags">Tags</label>
+              <label htmlFor="document-tags">Tags (optional)</label>
               <input
                 id="document-tags"
                 type="text"
                 value={form.tags}
                 onChange={update('tags')}
-                placeholder="ssc cgl 2024, polity notes, revision"
+                placeholder="physics notes, formulae, revision"
               />
               <span className="field__hint">Separate tags with commas. Up to 15 tags are stored.</span>
             </div>
           </div>
 
           <div className="form-section">
-            <h2 className="form-section__title">File</h2>
+            <h2 className="form-section__title">Document file</h2>
             <p className="form-section__subtitle">
               {isEdit
                 ? 'Leave this empty to keep the current file, or attach a new one to replace it.'
