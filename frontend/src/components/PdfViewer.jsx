@@ -79,20 +79,25 @@ export default function PdfViewer({ fileUrl, title = 'Document', downloadUrl, al
     }
   };
 
-  const handleLoadSuccess = ({ numPages: total }) => {
+  const handleLoadSuccess = useCallback(({ numPages: total }) => {
     setNumPages(total);
     setStatus('ready');
     setPageNumber((current) => clamp(current, 1, total || 1));
-  };
+  }, []);
 
-  const handleLoadError = (error) => {
+  const handleLoadError = useCallback((error) => {
     setStatus('error');
     setErrorMessage(
       error?.message?.includes('Invalid PDF')
         ? 'This file does not appear to be a valid PDF document.'
         : 'The document could not be loaded. Please check your connection and try again.'
     );
-  };
+  }, []);
+
+  const handleRenderError = useCallback(() => {
+    setStatus('error');
+    setErrorMessage('The document loaded, but this page could not be rendered. Try opening it in a new tab.');
+  }, []);
 
   const toggleFullscreen = async () => {
     try {
@@ -240,12 +245,12 @@ export default function PdfViewer({ fileUrl, title = 'Document', downloadUrl, al
               />
             }
             externalLinkTarget="_blank"
-            options={{ disableAutoFetch: false }}
           >
             <Page
               pageNumber={pageNumber}
               width={pageWidth}
               className="pdf-viewer__page"
+              onRenderError={handleRenderError}
               renderTextLayer
               renderAnnotationLayer
               loading={<LoadingSpinner label={`Rendering page ${pageNumber}...`} />}
